@@ -51,3 +51,22 @@ def run_simulation(num_drivers):
     utilization = (sum(delivery_times) / (SIM_TIME * num_drivers)) * 100
 
     return avg_wait, avg_delivery, utilization, time_stamps, queue_length_over_time
+
+scenarios = [3, 5, 8]
+results = []
+queue_data = {}
+
+for n in scenarios:
+    wait_times.clear()
+    delivery_times.clear()
+
+    avg_wait, avg_delivery, utilization, t_stamps, q_lengths = run_simulation(n)
+    results.append((n, avg_wait, avg_delivery, utilization))
+    queue_data[n] = (t_stamps, q_lengths)
+
+    print(f"\n--- Scenario: {n} Drivers ---")
+    print(f"Average Wait Time: {avg_wait:.2f} minutes")
+    print(f"Average Delivery Time: {avg_delivery:.2f} minutes")
+    print(f"Driver Utilization: {utilization:.2f}%")
+    print(f"Data Points: {len(q_lengths)}")
+    print("-" * 50)
