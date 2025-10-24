@@ -18,7 +18,7 @@ def monitor_queue(env, drivers,time_stamps,queue_length_over_time):
         time_stamps.append(env.now)
         yield env.timeout(5)
 
-def delivery_order(env, drivers):
+def delivery_order(env,names, drivers):
     arrival_time = env.now
     with drivers.request() as request:
         yield request
@@ -77,3 +77,40 @@ print("-" * 55)
 for n, w, d, u in results:
     print(f"{n:>8} | {w:>10.2f} | {d:>13.2f} | {u:>16.2f}")
 
+print("\n=== Queue Data (for Excel/Charting) ===")
+for n, (times, queues) in queue_data.items():
+    print(f"\n# Queue Length Data for {n} Drivers (time, queue_length)")
+    for t, q in zip(times, queues):
+        print(f"{t},{q}")
+
+driver_counts = [r[0] for r in results]
+avg_waits = [r[1] for r in results]
+avg_deliveries = [r[2] for r in results]
+utilizations = [r[3] for r in results]
+
+plt.figure(figsize=(10,5))
+plt.plot(driver_counts, avg_waits, marker='o', label='Avg Wait Time')
+plt.plot(driver_counts, avg_deliveries, marker='s', label='Avg Delivery Time')
+plt.title('Delivery Performance vs Number of Drivers')
+plt.xlabel('Number of Drivers')
+plt.ylabel('Time (minutes)')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+plt.figure(figsize=(8,4))
+plt.bar(driver_counts, utilizations, color='orange')
+plt.title('Driver Utilization vs Number of Drivers')
+plt.xlabel('Number of Drivers')
+plt.ylabel('Utilization (%)')
+plt.show()
+
+plt.figure(figsize=(10,5))
+for n, (times, queues) in queue_data.items():
+    plt.plot(times, queues, label=f'{n} Drivers')
+plt.title('Queue Length Over Time for Different Numbers of Drivers')
+plt.xlabel('Time (minutes)')
+plt.ylabel('Number of Waiting Orders')
+plt.legend()
+plt.grid(True)
+plt.show()
