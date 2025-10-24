@@ -83,34 +83,3 @@ for n, (times, queues) in queue_data.items():
     for t, q in zip(times, queues):
         print(f"{t},{q}")
 
-driver_counts = [r[0] for r in results]
-avg_waits = [r[1] for r in results]
-avg_deliveries = [r[2] for r in results]
-utilizations = [r[3] for r in results]
-
-plt.figure(figsize=(10,5))
-plt.plot(driver_counts, avg_waits, marker='o', label='Avg Wait Time')
-plt.plot(driver_counts, avg_deliveries, marker='s', label='Avg Delivery Time')
-plt.title('Delivery Performance vs Number of Drivers')
-plt.xlabel('Number of Drivers')
-plt.ylabel('Time (minutes)')
-plt.legend()
-plt.grid(True)
-plt.show()
-
-plt.figure(figsize=(8,4))
-plt.bar(driver_counts, utilizations, color='orange')
-plt.title('Driver Utilization vs Number of Drivers')
-plt.xlabel('Number of Drivers')
-plt.ylabel('Utilization (%)')
-plt.show()
-
-plt.figure(figsize=(10,5))
-for n, (times, queues) in queue_data.items():
-    plt.plot(times, queues, label=f'{n} Drivers')
-plt.title('Queue Length Over Time for Different Numbers of Drivers')
-plt.xlabel('Time (minutes)')
-plt.ylabel('Number of Waiting Orders')
-plt.legend()
-plt.grid(True)
-plt.show()
