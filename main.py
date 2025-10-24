@@ -70,3 +70,10 @@ for n in scenarios:
     print(f"Driver Utilization: {utilization:.2f}%")
     print(f"Data Points: {len(q_lengths)}")
     print("-" * 50)
+
+print("\n=== Summary Results ===")
+print(f"{'Drivers':>8} | {'Avg Wait':>10} | {'Avg Delivery':>13} | {'Utilization (%)':>16}")
+print("-" * 55)
+for n, w, d, u in results:
+    print(f"{n:>8} | {w:>10.2f} | {d:>13.2f} | {u:>16.2f}")
+
